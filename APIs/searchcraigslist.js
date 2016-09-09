@@ -133,7 +133,6 @@ module.exports.getLinks = function(url){
 //builds query that queries CL for all listings appearing in neighborhoods in array "neighborhoods"
 var composeQuery = function(neighborhoods, maxprice) {
   var neighborhoodUrls = [];
-  console.log(neighborhoods);
   neighborhoods.map(function(neighborhood, index) {
     neighbourhood = neighborhood.toLowerCase();
     var neighborhoodCode = neighborhoodCodes[neighbourhood];
@@ -155,7 +154,6 @@ module.exports.returnCraigsListlistingsByNeighborhood = function(neighborhoods, 
   var neighborhoodArr = neighborhoods.map(function(item) {
     return item.neighborhood;
   });
-	console.log(neighborhoods)
   return new Promise(function(resolve, reject) {
     var results = {};
     results.neighborhoods = neighborhoods;
@@ -172,6 +170,8 @@ module.exports.returnCraigsListlistingsByNeighborhood = function(neighborhoods, 
         //console.log(results);
         console.log(Object.keys(results.listings));
         if (Object.keys(results.listings).length === neighborhoodUrls.length) {
+          results.neighborhoods = neighborhoods;
+          console.log(results);
           resolve(results);
         }
       });
@@ -229,7 +229,7 @@ var getSignificantWords = function(results){
 		common.sort(function(a,b){
 			if(a[1]>b[1]){
 				return 1;
-			} 
+			}
 			if(a[1]<b[1]){
 				return -1
 			}
