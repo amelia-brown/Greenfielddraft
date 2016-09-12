@@ -32,7 +32,6 @@ var searchYelp = function(location, terms) {
         Yelp.searchYelpListings(location, terms[i])
         .then(function(data) {
           var term = terms[i];
-          console.log('xxooxx');
           console.log(term, i);
           if (data) {
             console.log('found result in db ', term, i);
@@ -54,7 +53,7 @@ var searchYelp = function(location, terms) {
               results.categories.push(catArray[0].category);
             }
           } else {
-            console.log('found result in db ', terms, i);
+            console.log('did not find result in db ', terms, i);
             makeYelpRequest(location, term)
             .then(function(data) {
               if (results.categories.length === terms.length - 1) {
@@ -84,6 +83,7 @@ var searchYelp = function(location, terms) {
 
 var makeYelpRequest = function(location, term) {
   return new promise(function(resolve, reject) {
+    console.log('in makeYelpRequest');
     var request_data = {
       method: 'GET',
       url: 'https://api.yelp.com/v2/search?'
