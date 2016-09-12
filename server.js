@@ -34,4 +34,4 @@ app.get('/data:params',function(req,res){
 
 
 app.listen('3000');
-console.log('Listening on 30000')
+console.log('Listening on 3000')
