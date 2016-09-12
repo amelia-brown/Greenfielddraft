@@ -28,33 +28,14 @@ var searchYelp = function(location, terms) {
   results.categories = [];
   return new Promise(function(resolve, reject) {
     for (var i = 0; i < terms.length; i++) {
-      Yelp.searchYelpListings(location, terms[i])
-      .then(function(data) {
-        console.log('xxooxx');
-        console.log(terms[i], i);
-        if (data) {
-         console.log('found result in db ', terms, i);
-          if (results.categories.length === terms.length - 1) {
-            if (results.categories.length === 0) {
-              results.allData = data;
-              results.categories.push(catArray[0].category);
-            } else {
-              results.allData = results.allData.concat(data);
-              results.categories.push(catArray[0].category);
-            }
-            resolve(results);
-          }
-          if (results.categories.length === 0) {
-            results.allData = data;
-            results.categories.push(catArray[0].category);
-          } else {
-            results.allData = results.allData.concat(data);
-            results.categories.push(catArray[0].category);
-          }
-        } else {
-          console.log('found result in db ', terms, i);
-          makeYelpRequest(location, term)
-          .then(function(data) {
+      (function(i) {
+        Yelp.searchYelpListings(location, terms[i])
+        .then(function(data) {
+          var term = terms[i];
+          console.log('xxooxx');
+          console.log(term, i);
+          if (data) {
+            console.log('found result in db ', term, i);
             if (results.categories.length === terms.length - 1) {
               if (results.categories.length === 0) {
                 results.allData = data;
@@ -72,10 +53,32 @@ var searchYelp = function(location, terms) {
               results.allData = results.allData.concat(data);
               results.categories.push(catArray[0].category);
             }
-          });
-        }
-      });
-    }
+          } else {
+            console.log('found result in db ', terms, i);
+            makeYelpRequest(location, term)
+            .then(function(data) {
+              if (results.categories.length === terms.length - 1) {
+                if (results.categories.length === 0) {
+                  results.allData = data;
+                  results.categories.push(catArray[0].category);
+                } else {
+                  results.allData = results.allData.concat(data);
+                  results.categories.push(catArray[0].category);
+                }
+                resolve(results);
+              }
+              if (results.categories.length === 0) {
+                results.allData = data;
+                results.categories.push(catArray[0].category);
+              } else {
+                results.allData = results.allData.concat(data);
+                results.categories.push(catArray[0].category);
+              }
+            });
+          }
+        });
+      })(i);
+    };
   });
 }
 
