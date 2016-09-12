@@ -1,6 +1,6 @@
 //get the data for SF and load it into the database
 
-var CLmodel = require('./config.js');
+var models = require('./config.js');
 
 var CL = require('./Craigslist.js');
 var neighbourhoodCodes = require('./nhcodes.js')
@@ -25,8 +25,6 @@ function downloadAllfromCity(city){
 			$ = cheerio.load(req.body);
 			var listingcount = Number($('.totalcount').html())
 			if(listingcount>2000){listingcount = 2000;}
-		
-
 
 			var tasks = [];
 
@@ -65,25 +63,23 @@ function downloadAllfromCity(city){
 module.exports.saveCityData = function(city){
 	downloadAllfromCity(city).then(function(data){
 		var data = JSON.stringify(data);
-		var record = new CLmodel({cityandsearchkey:city,listings:data});
+		var record = new models.Craigslist({cityandsearchkey:city,listings:data});
 		console.log('DATA LENGTH',data.length)
 		record.save(function(err){
 			if(err){console.log(err)} else {
 				console.log('Saved!')
 			}
 		})
-		console.log('saved');
 	})
 }
 
 function returnCityData(city){
 	return new Promise(function(resolve,reject){
-		CLmodel.find({cityandsearchkey:city},'listings',function(err,data){
-			if(data.length === 0){resolve([])} 
+		models.Craigslist.find({cityandsearchkey:city},'listings',function(err,data){
+			if(data.length === 0){resolve([])}
 				else {
 				resolve(JSON.parse(data[0].listings));
 			}
-			
 		})
 	});
 }
@@ -156,13 +152,13 @@ function filterByPriceandNeighborhood(data,nh,nhs,maxprice){
 }
 
 module.exports.clearCityData = function(city){
-	CLmodel.remove({cityandsearchkey:city},function(err){
+	models.Craigslist.remove({cityandsearchkey:city},function(err){
 		if(err){console.log(err);} else {
 			console.log('Cleared DB')
 		}
 	});
 
-		CLmodel.remove({cityandsearchkey:'test'},function(err){
+		models.Craigslist.remove({cityandsearchkey:'test'},function(err){
 		if(err){console.log(err);} else {
 			console.log('Cleared DB')
 		}

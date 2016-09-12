@@ -24,7 +24,7 @@ app.get('/data:params',function(req,res){
 		res.end("We currently only support San Francisco");
 	} else {
 		console.log('INTERESTS',interests.length);
-		APIs.getNeighborhoodsandListings(city,interests).then(function(data){
+		APIs.getNeighborhoodsandListings(city,interests).then(function(data) {
 				console.log('data from server: ', data);
 			res.end(JSON.stringify(data))});
 	}

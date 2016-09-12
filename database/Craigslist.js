@@ -28,7 +28,7 @@ module.exports.getLinkswithSigWord = function(city,apartmenttypekey,num){
 				//console.log($.html())
 				$('.hdrlnk').each(function(index,link){
 			 		listinglinks.push('http://'+city + '.craigslist.org/' + link.attribs.href)
-			  	})	
+			  	})
 			})
 			.then(function(){
 
@@ -89,7 +89,7 @@ module.exports.getLinkswithSigWord = function(city,apartmenttypekey,num){
 							common.sort(function(a,b){
 								if(a[1]>b[1]){
 									return 1;
-								} 
+								}
 								if(a[1]<b[1]){
 									return -1
 								}
@@ -106,7 +106,6 @@ module.exports.getLinkswithSigWord = function(city,apartmenttypekey,num){
 
 					})
 
-					
 				})
 
 			})

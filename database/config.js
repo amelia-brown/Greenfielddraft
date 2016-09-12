@@ -6,11 +6,16 @@ var Schema = mongoose.Schema;
 
 
 var CraigslistSchema = new Schema({cityandsearchkey: 'string',listings: 'string'})
-
 var Craigslist = mongoose.model('craigslist',CraigslistSchema);
 
-var test = new Craigslist({cityandsearchkey:"test",listings:'test'})
+var YelpSchema = new Schema({city: 'string', term: 'string', businesses: 'string'});
+var Yelp = mongoose.model('yelp', YelpSchema);
 
-test.save()
+var PhotoSchema = new Schema({city: 'string', neighborhood: 'string', img: 'string'});
+var Photo = mongoose.model('photo', PhotoSchema);
 
-module.exports = Craigslist;
+//var test = new Craigslist({cityandsearchkey:"test",listings:'test'})
+
+//test.save()
+
+module.exports = {Craigslist: Craigslist, Yelp: Yelp, Photo: Photo};
